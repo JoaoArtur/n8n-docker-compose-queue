@@ -69,8 +69,8 @@ services:
       - redis:/data
 volumes:
   db_storage:
-    external: true
+    - external: true
   n8n_storage:
-    external: true
+    - external: true
   redis:
-    external: true
+    - external: true
