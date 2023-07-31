@@ -28,10 +28,17 @@ services:
       - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
       - DB_POSTGRESDB_USER=${POSTGRES_NON_ROOT_USER}
       - DB_POSTGRESDB_PASSWORD=${POSTGRES_NON_ROOT_PASSWORD}
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PORT=6379
+      - QUEUE_BULL_REDIS_PASSWORD=${REDIS_PASSWORD}
+      - QUEUE_BULL_REDIS_DB=0
+      - QUEUE_WORKER_TIMEOUT=30
+      - QUEUE_RECOVERY_INTERVAL=60
     ports:
       - 5678:5678
     links:
       - postgres
+      - redis
     volumes:
       - n8n_storage:/home/node/.n8n
     depends_on:
@@ -50,6 +57,8 @@ services:
       - QUEUE_BULL_REDIS_DB=0
       - QUEUE_WORKER_TIMEOUT=30
       - QUEUE_RECOVERY_INTERVAL=60
+    links:
+      - redis
   redis:
     image: redis:6.2-alpine
     restart: always
